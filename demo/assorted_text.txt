@@ -1,0 +1,38 @@
+open Str
+open String
+open Printf
+open Scanf
+
+type lexeme = {name: string; pattern: string}
+type ind_match = {lexical_unit: lexeme; start: int; stop: int}
+type match_data = {lexical_unit: lexeme; captured_str: string}
+
+exception Invalid_line of string
+
+let tokenize_mlx lines =
+	let adjust_escapes pattern =
+		let rec _adjust_escapes pattern curr_end =
+			if pattern = "" then ""
+			else
+				try unescaped pattern
+				with Scan_failure _ ->
+					sprintf "%c%s" pattern.[0]
+						(_adjust_escapes (sub pattern 1 curr_end) (curr_end - 1))
+		in _adjust_escapes pattern ((length pattern) - 1) in
+
+	let tokenize_rule rule ind =
+		if contains (trim rule) ' ' then
+			let split_ind = search_forward (regexp "[^ ]+\\( *\\)$") rule 0 in
+				let correct_regex = adjust_escapes (string_before rule (split_ind - 1))
+				and pattern_name = trim (string_after rule split_ind) in
+				printf "Correct regex: %s\nPattern name: %s\n" correct_regex pattern_name;
+				[correct_regex; pattern_name]
+
+		else raise (Invalid_line (sprintf "Rule #%d was not given a name." ind)) in
+
+	let rec _tokenize_mlx lines ind =
+		match lines with
+			| [] -> []
+			| line :: rest ->
+				tokenize_rule line ind :: _tokenize_mlx rest (ind + 1) in
+	_tokenize_mlx lines 1
