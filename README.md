@@ -11,4 +11,4 @@ This, among many other qualities, makes it difficult to use.
 	- If you want to embed *microlex* into your own program, call the `lex` function as needed. Otherwise, follow the example in the `demo` directory to read a file of lexemes with the `.mlx` extension. The Makefile details how you could embed such an example into your own use cases.
 
 - Since it is magnitudes smaller than *flex*, and yet performs the same fundamental functions, it is likely that it runs faster than most *lex* variants like *flex*.
-- Run `make` to get started.
+- Run `make build` to get started.
