@@ -1,4 +1,4 @@
-## `microlex` is a small, yet effective lexical scanner.
+## *microlex* is a small, yet effective lexical scanner.
 
 *lex* has many odd conventions, because it mixes in *C* with its own psuedo-language,
 This, among many other qualities, makes it difficult to use.
